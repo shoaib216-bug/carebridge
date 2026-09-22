@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CareBridge</title>
+<style>
+:root{
+  --teal:#0B5B62; --navy:#0B3D66; --amber:#D98324;
+  --bg:#F2F6F5; --panel:#FFFFFF; --ink:#16262A; --muted:#5B7278;
+  --line:#DCE7E6; --green:#2E7D32; --yellow:#B8860B; --red:#B0281C;
+  --greenbg:#E7F3E8; --yellowbg:#FBF2DE; --redbg:#FBE8E6;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
+*{box-sizing:border-box;}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+body{margin:0;font-family:-apple-system,'Segoe UI',Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);}
+header{background:var(--teal);color:#fff;padding:.85rem 1.1rem;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;position:sticky;top:0;z-index:50;padding-top:calc(.85rem + env(safe-area-inset-top,0px));}
+.brand{display:flex;align-items:center;gap:.55rem;font-weight:700;font-size:1.05rem;margin-right:auto;}
+.brand .dot{width:10px;height:10px;background:var(--amber);border-radius:50%;}
+.tricolor{height:3px;background:linear-gradient(90deg,#FF9933 33%,#fff 33%,#fff 66%,#138808 66%);}
+.badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.14);padding:.35rem .6rem;border-radius:4px;font-size:.82rem;cursor:pointer;border:1px solid rgba(255,255,255,.25);color:#fff;}
+.badge.off{background:#7a3b1e;}
+select.lang{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:4px;padding:.35rem .5rem;font-size:.85rem;}
+nav{display:flex;gap:.3rem;overflow-x:auto;background:var(--navy);padding:.4rem .6rem;}
+nav button{background:transparent;border:none;color:#cfe0ea;padding:.5rem .75rem;font-size:.85rem;border-radius:4px;cursor:pointer;white-space:nowrap;}
+nav button.active{background:#fff;color:var(--navy);font-weight:700;}
+main{max-width:980px;margin:0 auto;padding:1.1rem;}
+.page{display:none;} .page.active{display:block;}
+h1{font-size:1.25rem;margin:.2rem 0 1rem;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.7rem;margin-bottom:1rem;}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.9rem;}
+.stat{font-size:1.6rem;font-weight:700;color:var(--teal);}
+.stat-label{font-size:.8rem;color:var(--muted);}
+table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden;}
+th,td{padding:.55rem .7rem;text-align:left;border-bottom:1px solid var(--line);font-size:.88rem;}
+th{background:#EAF2F1;color:var(--teal);font-weight:700;}
+tr:last-child td{border-bottom:none;}
+.section-title{font-weight:700;margin:1.1rem 0 .5rem;font-size:1rem;color:var(--navy);}
+label{display:block;font-size:.85rem;margin:.5rem 0 .25rem;color:var(--muted);}
+input,select{width:100%;padding:.5rem .6rem;border:1px solid var(--line);border-radius:4px;font-size:.9rem;background:#fff;}
+button.primary{background:var(--teal);color:#fff;border:none;padding:.55rem 1rem;border-radius:4px;font-size:.88rem;cursor:pointer;margin-top:.7rem;}
+button.ghost{background:#fff;border:1px solid var(--teal);color:var(--teal);padding:.4rem .75rem;border-radius:4px;font-size:.82rem;cursor:pointer;}
+.pill{display:inline-block;padding:.2rem .55rem;border-radius:4px;font-size:.78rem;font-weight:700;}
+.pill.green{background:var(--greenbg);color:var(--green);}
+.pill.yellow{background:var(--yellowbg);color:var(--yellow);}
+.pill.red{background:var(--redbg);color:var(--red);}
+.stepper{display:flex;flex-wrap:wrap;gap:.3rem;margin:.6rem 0;}
+.step{padding:.35rem .6rem;border-radius:4px;font-size:.78rem;background:#EAF2F1;color:var(--muted);}
+.step.done{background:var(--teal);color:#fff;}
+.panel-flex{display:flex;gap:1rem;flex-wrap:wrap;}
+.panel-flex>div{flex:1;min-width:260px;}
+#sosBtn{position:fixed;right:16px;bottom:16px;background:var(--red);color:#fff;border:none;border-radius:50%;width:60px;height:60px;font-weight:700;font-size:.78rem;box-shadow:0 2px 8px rgba(0,0,0,.25);z-index:60;cursor:pointer;padding-bottom:env(safe-area-inset-bottom,0px);}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:70;align-items:center;justify-content:center;padding:1rem;}
+.modal.open{display:flex;}
+.modal-box{background:#fff;border-radius:8px;padding:1.1rem;max-width:420px;width:100%;max-height:80vh;overflow:auto;}
+.chat{background:#fff;border:1px solid var(--line);border-radius:6px;padding:.8rem;}
+.chat-msg{padding:.5rem .7rem;border-radius:6px;margin-bottom:.5rem;font-size:.86rem;max-width:85%;}
+.chat-msg.in{background:#EAF2F1;}
+.chat-msg.out{background:var(--teal);color:#fff;margin-left:auto;}
+.chat-row{display:flex;gap:.4rem;margin-top:.5rem;}
+footer{text-align:center;padding:1.2rem;font-size:.78rem;color:var(--muted);}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#101A1C;--panel:#182427;--ink:#EAF2F1;--muted:#93A9AC;--line:#26383B;}
+  th{background:#1E3234;}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand" style="cursor:pointer" onclick="goHome()"><span class="dot"></span><span data-i18n="brand">CareBridge</span></div>
+  <div id="offlineBadge" class="badge" onclick="toggleOffline()">🟢 <span data-i18n="online">Online</span></div>
+  <select class="lang" onchange="setLanguage(this.value)">
+    <option value="en">English</option>
+    <option value="hi">हिंदी</option>
+    <option value="mr">मराठी</option>
+  </select>
+</header>
+<div class="tricolor"></div>
+<nav id="navBar"></nav>
+
+<main>
+  <section class="page active" id="page-dashboard">
+    <h1 data-i18n="nav_dashboard">Dashboard</h1>
+    <div class="grid">
+      <div class="card"><div class="stat" id="statVisits">0</div><div class="stat-label" data-i18n="statVisits">Today's Visits</div></div>
+      <div class="card"><div class="stat" id="statReferrals">0</div><div class="stat-label" data-i18n="statReferrals">Open Referrals</div></div>
+      <div class="card"><div class="stat" id="statRisk">0</div><div class="stat-label" data-i18n="statRisk">High-Risk Cases</div></div>
+      <div class="card"><div class="stat" id="statQueue">0</div><div class="stat-label" data-i18n="statQueue">In Queue</div></div>
+    </div>
+    <div class="section-title" data-i18n="whatsappTitle">WhatsApp Status Check</div>
+    <div class="chat">
+      <div id="chatLog"></div>
+      <div class="chat-row">
+        <input id="chatInput" placeholder="Patient ID e.g. P002" data-i18n-placeholder="chatPlaceholder">
+        <button class="primary" onclick="sendChat()" data-i18n="send">Send</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="page-tele">
+    <h1 data-i18n="nav_tele">Teleconsultation</h1>
+    <div class="section-title" data-i18n="teleTitle">Request Teleconsultation</div>
+    <label data-i18n="specialist">Specialist</label>
+    <select id="teleSpec"><option data-i18n="opt_gen">General Physician</option><option data-i18n="opt_peds">Pediatrician</option><option data-i18n="opt_gyn">Gynecologist</option></select>
+    <label data-i18n="slot">Time Slot</label>
+    <select id="teleSlot"><option>10:00 AM</option><option>2:00 PM</option><option>4:30 PM</option></select>
+    <button class="primary" onclick="bookTele()" data-i18n="confirmBooking">Confirm Booking</button>
+    <div id="teleResult"></div>
+  </section>
+
+  <section class="page" id="page-queue">
+    <h1 data-i18n="nav_queue">Appointment &amp; Queue Management</h1>
+    <div class="section-title" data-i18n="queueTitle">Live Queue</div>
+    <table><thead><tr><th data-i18n="token">Token</th><th data-i18n="patient">Patient</th><th data-i18n="status">Status</th></tr></thead><tbody id="queueBody"></tbody></table>
+    <button class="ghost" style="margin-top:.6rem" onclick="addQueue()" data-i18n="addQueue">+ Add to Queue</button>
+  </section>
+
+  <section class="page" id="page-triage">
+    <h1 data-i18n="nav_triage">Digital Triage</h1>
+    <label data-i18n="symFever">Fever (&gt;38°C)</label>
+    <select id="symFever"><option value="0" data-i18n="no">No</option><option value="1" data-i18n="yes">Yes</option></select>
+    <label data-i18n="symBreath">Fast / Difficult Breathing</label>
+    <select id="symBreath"><option value="0" data-i18n="no">No</option><option value="1" data-i18n="yes">Yes</option></select>
+    <label data-i18n="symFeed">Unable to Feed / Drink</label>
+    <select id="symFeed"><option value="0" data-i18n="no">No</option><option value="1" data-i18n="yes">Yes</option></select>
+    <button class="primary" onclick="runTriage()" data-i18n="checkRisk">Check Risk Level</button>
+    <div id="triageResult" style="margin-top:.8rem"></div>
+  </section>
+
+  <section class="page" id="page-records">
+    <h1 data-i18n="nav_records">Patient Records</h1>
+    <select id="patientSelect" onchange="renderPatient()"></select>
+    <div class="section-title" id="patientName"></div>
+    <table><thead><tr><th data-i18n="date">Date</th><th data-i18n="visitType">Visit</th><th data-i18n="notes">Notes</th></tr></thead><tbody id="historyBody"></tbody></table>
+  </section>
+
+  <section class="page" id="page-referral">
+    <h1 data-i18n="nav_referral">Referral Tracker</h1>
+    <div id="referralList"></div>
+  </section>
+
+  <section class="page" id="page-diag">
+    <h1 data-i18n="nav_diag">Diagnostic Coordination</h1>
+    <table><thead><tr><th data-i18n="test">Test</th><th data-i18n="patient">Patient</th><th data-i18n="status">Status</th><th></th></tr></thead><tbody id="diagBody"></tbody></table>
+  </section>
+
+  <section class="page" id="page-med">
+    <h1 data-i18n="nav_med">Medicine Availability</h1>
+    <input id="medSearch" placeholder="Search medicine..." data-i18n-placeholder="medSearch" oninput="renderMed()">
+    <table style="margin-top:.5rem"><thead><tr><th data-i18n="medicine">Medicine</th><th data-i18n="qty">Qty</th><th data-i18n="status">Status</th></tr></thead><tbody id="medBody"></tbody></table>
+  </section>
+
+  <section class="page" id="page-highrisk">
+    <h1 data-i18n="nav_highrisk">High-Risk Follow-up</h1>
+    <div id="highriskList"></div>
+  </section>
+
+  <section class="page" id="page-facility">
+    <h1 data-i18n="nav_facility">Facility Dashboard</h1>
+    <div class="grid">
+      <div class="card"><div class="stat" id="fVisits">0</div><div class="stat-label" data-i18n="statVisits">Today's Visits</div></div>
+      <div class="card"><div class="stat" id="fRef">0</div><div class="stat-label" data-i18n="statReferrals">Open Referrals</div></div>
+      <div class="card"><div class="stat" id="fRisk">0</div><div class="stat-label" data-i18n="statRisk">High-Risk Cases</div></div>
+    </div>
+    <div class="section-title" data-i18n="nearbyFacilities">Nearby Facilities</div>
+    <table><thead><tr><th data-i18n="facility">Facility</th><th data-i18n="services">Services</th><th data-i18n="status">Status</th></tr></thead><tbody id="facBody"></tbody></table>
+
+    <div class="section-title" data-i18n="staffRoster">Staff Roster &amp; Attendance</div>
+    <table><thead><tr><th data-i18n="staffName">Name</th><th data-i18n="role">Role</th><th data-i18n="status">Status</th><th></th></tr></thead><tbody id="staffBody"></tbody></table>
+  </section>
+</main>
+
+<button id="sosBtn" onclick="openSOS()">SOS</button>
+<div class="modal" id="sosModal">
+  <div class="modal-box">
+    <div class="section-title" data-i18n="sosTitle" style="margin-top:0">Nearest Hospitals</div>
+    <table><tbody id="sosBody"></tbody></table>
+    <button class="primary" onclick="closeSOS()" data-i18n="close">Close</button>
+  </div>
+</div>
+
+<footer data-i18n="footer">Ministry of Health &amp; Family Welfare · Government of Maharashtra (prototype)</footer>
+
+<script>
+const T = {
+en:{brand:"CareBridge",online:"Online",offline:"Offline",
+ nav_dashboard:"Dashboard",nav_tele:"Teleconsultation",nav_queue:"Appointment/Queue",nav_triage:"Digital Triage",nav_records:"Patient Records",
+ nav_referral:"Referral Tracking",nav_diag:"Diagnostics",nav_med:"Medicine",nav_highrisk:"High-Risk Follow-up",nav_facility:"Facility Dashboard",
+ staffRoster:"Staff Roster & Attendance",staffName:"Name",role:"Role",present:"Present",absent:"Absent",markPresent:"Mark Present",markAbsent:"Mark Absent",
+ statVisits:"Today's Visits",statReferrals:"Open Referrals",statRisk:"High-Risk Cases",statQueue:"In Queue",
+ whatsappTitle:"WhatsApp Status Check",send:"Send",chatPlaceholder:"Patient ID e.g. P002",
+ teleTitle:"Request Teleconsultation",specialist:"Specialist",slot:"Time Slot",confirmBooking:"Confirm Booking",
+ opt_gen:"General Physician",opt_peds:"Pediatrician",opt_gyn:"Gynecologist",
+ queueTitle:"Live Queue",token:"Token",patient:"Patient",status:"Status",addQueue:"+ Add to Queue",
+ symFever:"Fever (>38°C)",symBreath:"Fast / Difficult Breathing",symFeed:"Unable to Feed / Drink",
+ no:"No",yes:"Yes",checkRisk:"Check Risk Level",
+ date:"Date",visitType:"Visit",notes:"Notes",
+ diagTitle:"Diagnostic Tests",test:"Test",medTitle:"Medicine Availability",medSearch:"Search medicine...",
+ medicine:"Medicine",qty:"Qty",nearbyFacilities:"Nearby Facilities",facility:"Facility",services:"Services",
+ sosTitle:"Nearest Hospitals",close:"Close",
+ footer:"Ministry of Health & Family Welfare · Government of Maharashtra (prototype)"},
+hi:{brand:"केअरब्रिज",online:"ऑनलाइन",offline:"ऑफलाइन",
+ nav_dashboard:"डैशबोर्ड",nav_tele:"टेलीकंसल्टेशन",nav_queue:"अपॉइंटमेंट/कतार",nav_triage:"डिजिटल ट्राइएज",nav_records:"रोगी रिकॉर्ड",
+ nav_referral:"रेफरल ट्रैकिंग",nav_diag:"जांच समन्वय",nav_med:"दवा उपलब्धता",nav_highrisk:"उच्च-जोखिम फॉलो-अप",nav_facility:"सुविधा डैशबोर्ड",
+ staffRoster:"स्टाफ रोस्टर व उपस्थिति",staffName:"नाम",role:"भूमिका",present:"उपस्थित",absent:"अनुपस्थित",markPresent:"उपस्थित करें",markAbsent:"अनुपस्थित करें",
+ statVisits:"आज की विज़िट",statReferrals:"खुले रेफरल",statRisk:"उच्च-जोखिम मामले",statQueue:"कतार में",
+ whatsappTitle:"व्हाट्सएप स्टेटस जांच",send:"भेजें",chatPlaceholder:"रोगी आईडी जैसे P002",
+ teleTitle:"टेलीकंसल्टेशन अनुरोध",specialist:"विशेषज्ञ",slot:"समय स्लॉट",confirmBooking:"बुकिंग की पुष्टि करें",
+ opt_gen:"सामान्य चिकित्सक",opt_peds:"बाल रोग विशेषज्ञ",opt_gyn:"स्त्री रोग विशेषज्ञ",
+ queueTitle:"लाइव कतार",token:"टोकन",patient:"रोगी",status:"स्थिति",addQueue:"+ कतार में जोड़ें",
+ symFever:"बुखार (>38°C)",symBreath:"तेज़ / कठिन साँस",symFeed:"खाने-पीने में असमर्थ",
+ no:"नहीं",yes:"हाँ",checkRisk:"जोखिम स्तर जांचें",
+ date:"तारीख़",visitType:"विज़िट",notes:"टिप्पणी",
+ diagTitle:"जांच परीक्षण",test:"परीक्षण",medTitle:"दवा उपलब्धता",medSearch:"दवा खोजें...",
+ medicine:"दवा",qty:"मात्रा",nearbyFacilities:"नज़दीकी सुविधाएं",facility:"सुविधा",services:"सेवाएं",
+ sosTitle:"निकटतम अस्पताल",close:"बंद करें",
+ footer:"स्वास्थ्य एवं परिवार कल्याण मंत्रालय · महाराष्ट्र सरकार (प्रोटोटाइप)"},
+mr:{brand:"केअरब्रिज",online:"ऑनलाइन",offline:"ऑफलाइन",
+ nav_dashboard:"डॅशबोर्ड",nav_tele:"टेलीकन्सल्टेशन",nav_queue:"अपॉइंटमेंट/रांग",nav_triage:"डिजिटल ट्रायएज",nav_records:"रुग्ण नोंदी",
+ nav_referral:"संदर्भ ट्रॅकिंग",nav_diag:"निदान समन्वय",nav_med:"औषध उपलब्धता",nav_highrisk:"उच्च-जोखीम फॉलो-अप",nav_facility:"सुविधा डॅशबोर्ड",
+ staffRoster:"कर्मचारी सूची व उपस्थिती",staffName:"नाव",role:"भूमिका",present:"उपस्थित",absent:"अनुपस्थित",markPresent:"उपस्थित करा",markAbsent:"अनुपस्थित करा",
+ statVisits:"आजच्या भेटी",statReferrals:"खुले संदर्भ",statRisk:"उच्च-जोखीम रुग्ण",statQueue:"रांगेत",
+ whatsappTitle:"व्हॉट्सअ‍ॅप स्टेटस तपासणी",send:"पाठवा",chatPlaceholder:"रुग्ण आयडी उदा. P002",
+ teleTitle:"टेलीकन्सल्टेशन विनंती",specialist:"तज्ज्ञ",slot:"वेळ",confirmBooking:"बुकिंग निश्चित करा",
+ opt_gen:"सामान्य वैद्य",opt_peds:"बालरोगतज्ज्ञ",opt_gyn:"स्त्रीरोगतज्ज्ञ",
+ queueTitle:"थेट रांग",token:"तिकीट",patient:"रुग्ण",status:"स्थिती",addQueue:"+ रांगेत जोडा",
+ symFever:"ताप (>38°C)",symBreath:"जलद / कठीण श्वास",symFeed:"खाण्यास/पिण्यास असमर्थ",
+ no:"नाही",yes:"होय",checkRisk:"जोखीम पातळी तपासा",
+ date:"तारीख",visitType:"भेट",notes:"नोंदी",
+ diagTitle:"निदान चाचण्या",test:"चाचणी",medTitle:"औषध उपलब्धता",medSearch:"औषध शोधा...",
+ medicine:"औषध",qty:"साठा",nearbyFacilities:"जवळील सुविधा",facility:"सुविधा",services:"सेवा",
+ sosTitle:"जवळचे रुग्णालय",close:"बंद करा",
+ footer:"आरोग्य व कुटुंब कल्याण मंत्रालय · महाराष्ट्र शासन (प्रोटोटाइप)"}
+};
+let lang='en', online=true;
+
+const patients=[
+ {id:'P001',name:'Fatima Sheikh',visits:[{d:'12 Sep',t:'ANC Checkup',n:'BP normal, next visit due'},{d:'02 Sep',t:'ANC Checkup',n:'Mild anemia noted'}]},
+ {id:'P002',name:'Ravi Kadam',visits:[{d:'18 Sep',t:'Fever Follow-up',n:'Referred to PHC'}]},
+ {id:'P003',name:'Sunita Pawar',visits:[{d:'15 Sep',t:'Child Immunization',n:'Dose 2 given'}]}
+];
+let referrals=[
+ {id:'R1',patient:'Fatima Sheikh',steps:['Referred','Accepted','Scheduled'],cur:2},
+ {id:'R2',patient:'Ravi Kadam',steps:['Referred'],cur:0}
+];
+const STEP_SEQ=['Referred','Accepted','Scheduled','Arrived','Treated','Back-Referred','Closed'];
+let queue=[{tok:'A12',patient:'Sunita Pawar',status:'Waiting'},{tok:'A13',patient:'Ravi Kadam',status:'Waiting'}];
+let diagnostics=[{test:'Blood CBC',patient:'Fatima Sheikh',status:'Pending'},{test:'X-Ray Chest',patient:'Ravi Kadam',status:'In Progress'}];
+let medicines=[{name:'Paracetamol',qty:120,status:'ok'},{name:'ORS Sachets',qty:8,status:'low'},{name:'Iron Folic Acid',qty:0,status:'out'}];
+let highrisk=[{name:'Fatima Sheikh',reason:'2 missed ANC visits'},{name:'Baby of Sunita Pawar',reason:'Low birth weight'}];
+const facilities=[{name:'AAM Sub-Centre Wadgaon',services:'OPD, Immunization',status:'Open'},{name:'Rural Hospital Baramati',services:'X-Ray, Lab, Maternity',status:'Open'}];
+let staff=[{name:'Anjali More',role:'ASHA Worker',present:true},{name:'Deepak Jadhav',role:'ANM',present:true},{name:'Dr. Kavita Rane',role:'Medical Officer',present:false},{name:'Sameer Shaikh',role:'Lab Technician',present:true}];
+function goHome(){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById('page-dashboard').classList.add('active');
+ document.querySelectorAll('#navBar button').forEach(b=>b.classList.remove('active'));
+}
+const sosHospitals=[{name:'District Civil Hospital',dist:'6.2 km',phone:'02112-XXXXXX'},{name:'Rural Hospital Baramati',dist:'3.4 km',phone:'02112-YYYYYY'}];
+
+function el(tag,cls,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!==undefined)e.innerHTML=html;return e;}
+
+function buildNav(){
+ const items=['tele','queue','triage','records','referral','diag','med','highrisk','facility'];
+ const bar=document.getElementById('navBar');bar.innerHTML='';
+ items.forEach(id=>{
+  const b=document.createElement('button');
+  b.dataset.i18n='nav_'+id; b.dataset.page=id; b.textContent=T[lang]['nav_'+id];
+  b.onclick=()=>showPage(id,b);
+  bar.appendChild(b);
+ });
+}
+function showPage(id,btn){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById('page-'+id).classList.add('active');
+ document.querySelectorAll('#navBar button').forEach(b=>b.classList.remove('active'));
+ btn.classList.add('active');
+}
+function setLanguage(l){
+ lang=l;
+ document.querySelectorAll('[data-i18n]').forEach(e=>{const k=e.dataset.i18n; if(T[lang][k]) e.textContent=T[lang][k];});
+ document.querySelectorAll('[data-i18n-placeholder]').forEach(e=>{const k=e.dataset.i18nPlaceholder||e.getAttribute('data-i18n-placeholder'); if(T[lang][k]) e.placeholder=T[lang][k];});
+ const activePage=[...document.querySelectorAll('.page')].find(p=>p.classList.contains('active'));
+ const activeId=activePage?activePage.id.replace('page-',''):'dashboard';
+ buildNav();
+ const match=[...document.querySelectorAll('#navBar button')].find(b=>b.dataset.page===activeId);
+ if(match) match.classList.add('active');
+ refreshAll();
+}
+function toggleOffline(){
+ online=!online;
+ const b=document.getElementById('offlineBadge');
+ b.classList.toggle('off',!online);
+ b.innerHTML=(online?'🟢 ':'🔴 ')+'<span data-i18n="'+(online?'online':'offline')+'">'+T[lang][online?'online':'offline']+'</span>';
+ if(online){ queue.forEach(q=>{if(q.status==='Pending Sync')q.status='Waiting';}); renderQueue(); }
+}
+function renderStats(){
+ document.getElementById('statVisits').textContent=patients.reduce((a,p)=>a+p.visits.length,0);
+ document.getElementById('statReferrals').textContent=referrals.filter(r=>r.cur<STEP_SEQ.length-1).length;
+ document.getElementById('statRisk').textContent=highrisk.length;
+ document.getElementById('statQueue').textContent=queue.length;
+ document.getElementById('fVisits').textContent=document.getElementById('statVisits').textContent;
+ document.getElementById('fRef').textContent=document.getElementById('statReferrals').textContent;
+ document.getElementById('fRisk').textContent=highrisk.length;
+}
+function bookTele(){
+ const sp=document.getElementById('teleSpec').value||T[lang].opt_gen;
+ const sl=document.getElementById('teleSlot').value;
+ document.getElementById('teleResult').innerHTML='<div class="pill green" style="margin-top:.6rem">✓ '+sp+' — '+sl+'</div>';
+}
+function renderQueue(){
+ const body=document.getElementById('queueBody');body.innerHTML='';
+ queue.forEach(q=>{
+  const tr=document.createElement('tr');
+  const cls=q.status==='Pending Sync'?'yellow':'green';
+  tr.innerHTML=`<td>${q.tok}</td><td>${q.patient}</td><td><span class="pill ${cls}">${q.status}</span></td>`;
+  body.appendChild(tr);
+ });
+}
+function addQueue(){
+ const n='A'+(14+queue.length);
+ queue.push({tok:n,patient:'New Patient',status:online?'Waiting':'Pending Sync'});
+ renderQueue(); renderStats();
+}
+function runTriage(){
+ const f=+document.getElementById('symFever').value, b=+document.getElementById('symBreath').value, fd=+document.getElementById('symFeed').value;
+ const score=f+b+fd;
+ let level,cls,note;
+ if(fd||b){level={en:'RED — Refer Immediately',hi:'लाल — तुरंत रेफर करें',mr:'लाल — त्वरित संदर्भ द्या'}[lang];cls='red';note='IMNCI danger sign present';}
+ else if(f){level={en:'YELLOW — Monitor Closely',hi:'पीला — निगरानी करें',mr:'पिवळा — बारकाईने निरीक्षण करा'}[lang];cls='yellow';note='IMNCI: single risk factor';}
+ else{level={en:'GREEN — Routine Care',hi:'हरा — नियमित देखभाल',mr:'हिरवा — नियमित काळजी'}[lang];cls='green';note='No danger signs';}
+ document.getElementById('triageResult').innerHTML=`<span class="pill ${cls}">${level}</span><div style="margin-top:.4rem;color:var(--muted);font-size:.82rem">${note}</div>`;
+}
+function renderPatientSelect(){
+ const sel=document.getElementById('patientSelect');sel.innerHTML='';
+ patients.forEach(p=>{const o=document.createElement('option');o.value=p.id;o.textContent=p.name;sel.appendChild(o);});
+}
+function renderPatient(){
+ const p=patients.find(x=>x.id===document.getElementById('patientSelect').value)||patients[0];
+ document.getElementById('patientName').textContent=p.name+' ('+p.id+')';
+ const body=document.getElementById('historyBody');body.innerHTML='';
+ p.visits.forEach(v=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${v.d}</td><td>${v.t}</td><td>${v.n}</td>`;body.appendChild(tr);});
+}
+function renderReferrals(){
+ const wrap=document.getElementById('referralList');wrap.innerHTML='';
+ referrals.forEach(r=>{
+  const card=el('div','card');
+  card.style.marginBottom='.7rem';
+  const title=el('div','section-title',r.patient+' <span style="color:var(--muted);font-weight:400">('+r.id+')</span>');
+  title.style.margin='0 0 .4rem';
+  card.appendChild(title);
+  const stp=el('div','stepper');
+  STEP_SEQ.forEach((s,i)=>{const d=el('div','step'+(i<=r.cur?' done':''),s);stp.appendChild(d);});
+  card.appendChild(stp);
+  if(r.cur<STEP_SEQ.length-1){
+   const btn=el('button','ghost',{en:'Advance Status',hi:'स्थिति आगे बढ़ाएं',mr:'स्थिती पुढे न्या'}[lang]);
+   btn.onclick=()=>{r.cur++;renderReferrals();renderStats();};
+   card.appendChild(btn);
+  }
+  wrap.appendChild(card);
+ });
+}
+function renderDiag(){
+ const body=document.getElementById('diagBody');body.innerHTML='';
+ diagnostics.forEach((d,i)=>{
+  const cls=d.status==='Done'?'green':(d.status==='In Progress'?'yellow':'red');
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${d.test}</td><td>${d.patient}</td><td><span class="pill ${cls}">${d.status}</span></td><td></td>`;
+  const btn=el('button','ghost',{en:'Update',hi:'अपडेट',mr:'अद्ययावत'}[lang]);
+  btn.onclick=()=>{ d.status = d.status==='Pending'?'In Progress':(d.status==='In Progress'?'Done':'Done'); renderDiag(); };
+  tr.lastElementChild.appendChild(btn);
+  body.appendChild(tr);
+ });
+}
+function renderMed(){
+ const q=(document.getElementById('medSearch').value||'').toLowerCase();
+ const body=document.getElementById('medBody');body.innerHTML='';
+ medicines.filter(m=>m.name.toLowerCase().includes(q)).forEach(m=>{
+  const cls=m.status==='ok'?'green':(m.status==='low'?'yellow':'red');
+  const label={ok:{en:'In Stock',hi:'उपलब्ध',mr:'उपलब्ध'},low:{en:'Low Stock',hi:'कम स्टॉक',mr:'कमी साठा'},out:{en:'Out of Stock',hi:'स्टॉक खत्म',mr:'साठा संपला'}}[m.status][lang];
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${m.name}</td><td>${m.qty}</td><td><span class="pill ${cls}">${label}</span></td>`;
+  body.appendChild(tr);
+ });
+}
+function renderHighrisk(){
+ const wrap=document.getElementById('highriskList');wrap.innerHTML='';
+ highrisk.forEach((h,i)=>{
+  const card=el('div','card');card.style.marginBottom='.6rem';
+  card.innerHTML=`<b>${h.name}</b><div style="color:var(--muted);font-size:.85rem;margin:.2rem 0 .5rem">${h.reason}</div>`;
+  const btn=el('button','ghost',{en:'Mark Followed Up',hi:'फॉलो-अप पूर्ण करें',mr:'फॉलो-अप पूर्ण करा'}[lang]);
+  btn.onclick=()=>{highrisk.splice(i,1);renderHighrisk();renderStats();};
+  card.appendChild(btn);
+  wrap.appendChild(card);
+ });
+}
+function renderFacilities(){
+ const body=document.getElementById('facBody');body.innerHTML='';
+ facilities.forEach(f=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${f.name}</td><td>${f.services}</td><td><span class="pill green">${f.status}</span></td>`;body.appendChild(tr);});
+}
+function renderStaff(){
+ const body=document.getElementById('staffBody');body.innerHTML='';
+ staff.forEach((s,i)=>{
+  const tr=document.createElement('tr');
+  const pillCls=s.present?'green':'red';
+  const label=s.present?T[lang].present:T[lang].absent;
+  const btnLabel=s.present?T[lang].markAbsent:T[lang].markPresent;
+  tr.innerHTML=`<td>${s.name}</td><td>${s.role}</td><td><span class="pill ${pillCls}">${label}</span></td><td></td>`;
+  const btn=el('button','ghost',btnLabel);
+  btn.onclick=()=>{staff[i].present=!staff[i].present;renderStaff();};
+  tr.lastElementChild.appendChild(btn);
+  body.appendChild(tr);
+ });
+}
+function openSOS(){
+ const body=document.getElementById('sosBody');body.innerHTML='';
+ sosHospitals.forEach(h=>{const tr=document.createElement('tr');tr.innerHTML=`<td><b>${h.name}</b><br><span style="color:var(--muted);font-size:.8rem">${h.phone}</span></td><td>${h.dist}</td>`;body.appendChild(tr);});
+ document.getElementById('sosModal').classList.add('open');
+}
+function closeSOS(){document.getElementById('sosModal').classList.remove('open');}
+function sendChat(){
+ const inp=document.getElementById('chatInput');
+ const id=inp.value.trim().toUpperCase();
+ const log=document.getElementById('chatLog');
+ if(!id)return;
+ const um=el('div','chat-msg out',id); log.appendChild(um);
+ const p=patients.find(x=>x.id===id);
+ const ref=referrals.find(r=>p&&r.patient===p.name);
+ let reply;
+ if(!p) reply={en:'No record found for this ID.',hi:'इस आईडी के लिए कोई रिकॉर्ड नहीं मिला।',mr:'या आयडीसाठी नोंद आढळली नाही.'}[lang];
+ else if(ref) reply=p.name+': '+STEP_SEQ[ref.cur];
+ else reply=p.name+': '+{en:'No active referral',hi:'कोई सक्रिय रेफरल नहीं',mr:'सक्रिय संदर्भ नाही'}[lang];
+ const bm=el('div','chat-msg in',reply); log.appendChild(bm);
+ inp.value='';
+ log.scrollTop=log.scrollHeight;
+}
+function refreshAll(){
+ renderStats();renderQueue();renderPatientSelect();renderPatient();renderReferrals();
+ renderDiag();renderMed();renderHighrisk();renderFacilities();renderStaff();
+}
+buildNav();
+renderPatientSelect();
+refreshAll();
+</script>
+</body>
+</html>
