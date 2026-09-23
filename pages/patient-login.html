@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patient Login | CareBridge</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="portal-page">
+
+<header class="simple-header">
+  <a href="../index.html" class="brand">
+    <div class="brand-symbol">✚</div>
+    <div><h2>CareBridge</h2><span data-i18n="patient_portal_label">Rural Healthcare Continuity Platform</span></div>
+  </a>
+  <a href="../index.html" class="back-link">← <span data-i18n="about">Back to Home</span></a>
+</header>
+<div class="tricolor"></div>
+
+<main class="login-wrapper">
+  <div class="login-info">
+    <span class="login-kicker" data-i18n="patient_family_portal">PATIENT & FAMILY PORTAL</span>
+    <h1>Your healthcare journey, <span data-i18n="connected_healthcare">connected.</span></h1>
+    <p data-i18n="track_appointments">Access appointments, referrals, care history and important updates from your healthcare journey.</p>
+    <div class="login-benefits">
+      <div><span>✓</span><span data-i18n="track_referrals">Track referrals</span></div>
+      <div><span>✓</span><span data-i18n="view_appointments">View appointments</span></div>
+      <div><span>✓</span><span data-i18n="access_updates">Access care updates</span></div>
+      <div><span>✓</span><span data-i18n="multilingual_support">Multilingual support</span></div>
+    </div>
+  </div>
+
+  <div class="login-card">
+    <div class="login-card-icon">👤</div>
+    <h2 data-i18n="patient_login">Patient Login</h2>
+    <p class="login-subtitle" data-i18n="registered_mobile">Enter your registered mobile number</p>
+    <form onsubmit="patientLogin(event)">
+      <label data-i18n="mobile_number">Mobile Number</label>
+      <div class="input-with-prefix">
+        <span>+91</span>
+        <input type="tel" id="patientMobile" placeholder="Enter mobile number" data-i18n-placeholder="enter_mobile" maxlength="10" required>
+      </div>
+      <label data-i18n="patient_id">Patient ID</label>
+      <input type="text" id="patientId" placeholder="Example: CB-10284" required>
+      <button class="login-button" type="submit" data-i18n="continue_otp">Continue with OTP →</button>
+    </form>
+    <div class="demo-note"><strong data-i18n="prototype_mode">Prototype Mode</strong><span data-i18n="sim_auth">This demonstration uses simulated authentication.</span></div>
+  </div>
+</main>
+
+<script src="../js/app.js"></script>
+<script>
+function patientLogin(event){
+ event.preventDefault();
+ localStorage.setItem('carebridgeRole','patient');
+ window.location.href='patient-dashboard.html';
+}
+</script>
+</body>
+</html>

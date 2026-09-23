@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Healthcare Staff Portal | CareBridge</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="portal-page">
+
+<header class="simple-header">
+  <div class="brand">
+    <div class="brand-symbol">✚</div>
+    <div><h2>CareBridge</h2><span data-i18n="healthcare_staff_portal">PUBLIC HEALTHCARE CONTINUITY PLATFORM</span></div>
+  </div>
+  <a href="../index.html" class="back-link">← <span data-i18n="about">Back to Home</span></a>
+</header>
+<div class="tricolor"></div>
+
+<main class="staff-login-container">
+  <div class="staff-login-heading">
+    <div class="login-kicker" data-i18n="authorized_access">AUTHORIZED ACCESS</div>
+    <h1 data-i18n="healthcare_staff_portal">Healthcare Staff Portal</h1>
+    <p data-i18n="select_role">Select your role to securely access the CareBridge healthcare coordination system.</p>
+  </div>
+
+  <div class="role-grid">
+    <a href="staff-auth.html?role=asha" class="role-card">
+      <div class="role-icon green-icon">🩺</div>
+      <div><span data-i18n="field_health_worker">FIELD HEALTH WORKER</span><h3>ASHA / ANM</h3><p data-i18n="field_desc">Patient registration, digital triage, referrals and follow-up.</p><strong data-i18n="secure_login">Secure Login →</strong></div>
+    </a>
+    <a href="staff-auth.html?role=doctor" class="role-card">
+      <div class="role-icon blue-icon">👨‍⚕️</div>
+      <div><span data-i18n="clinical_access">CLINICAL ACCESS</span><h3>Doctor</h3><p data-i18n="doctor_desc_card">Patient history, consultation, referrals and clinical review.</p><strong data-i18n="secure_login">Secure Login →</strong></div>
+    </a>
+    <a href="staff-auth.html?role=admin" class="role-card">
+      <div class="role-icon orange-icon">🏥</div>
+      <div><span data-i18n="facility_operations_label">FACILITY OPERATIONS</span><h3>Facility Admin</h3><p data-i18n="facility_desc_card">Queue management, referrals, staff and facility operations.</p><strong data-i18n="secure_login">Secure Login →</strong></div>
+    </a>
+    <a href="staff-auth.html?role=district" class="role-card">
+      <div class="role-icon purple-icon">🏛️</div>
+      <div><span data-i18n="administrative_monitoring">ADMINISTRATIVE MONITORING</span><h3>District Authority</h3><p data-i18n="district_desc_card">Monitor facilities, referral delays, trends and district-level indicators.</p><strong data-i18n="secure_login">Secure Login →</strong></div>
+    </a>
+  </div>
+</main>
+
+<script src="../js/app.js"></script>
+</body>
+</html>

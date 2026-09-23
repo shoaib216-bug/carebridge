@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Facility Dashboard | CareBridge</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="dashboard-page">
+
+<header class="dashboard-header">
+  <div class="brand"><div class="brand-symbol">✚</div><div><h2>CareBridge</h2><span data-i18n="facility_admin">Facility Administration</span></div></div>
+  <div class="header-user">
+    <span id="offlineBadge" class="offline-badge" onclick="toggleOffline()">🟢 <span data-i18n="online">Online</span></span>
+    <div class="langSwitch">
+      <button class="langBtn active" data-lang="en">EN</button>
+      <button class="langBtn" data-lang="hi">हिं</button>
+      <button class="langBtn" data-lang="mr">मर</button>
+    </div>
+    <strong>District Hospital</strong>
+    <button onclick="logout()" data-i18n="logout">Logout</button>
+  </div>
+</header>
+
+<div class="dashboard-layout">
+<aside class="sidebar">
+  <div class="sidebar-profile"><div class="profile-avatar">DH</div><strong>District Hospital</strong><small>Facility ID: CB-FAC-018</small></div>
+  <nav>
+    <a class="active">🏠 <span data-i18n="overview">Overview</span></a>
+    <a>👥 <span data-i18n="patient_queue">Patient Queue</span></a>
+    <a>🔄 <span data-i18n="referrals">Referrals</span></a>
+    <a>🩺 <span data-i18n="staff">Staff</span></a>
+    <a>💊 <span data-i18n="medicine">Medicine</span></a>
+    <a>📊 <span data-i18n="reports">Reports</span></a>
+  </nav>
+</aside>
+
+<main class="dashboard-main">
+  <div class="dashboard-title">
+    <div><span data-i18n="facility_operations">FACILITY OPERATIONS</span><h1>District Hospital</h1><p data-i18n="facility_desc">Real-time overview of facility operations — controlled by facility admin.</p></div>
+    <div class="online-status">● <span data-i18n="operational">Operational</span></div>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card"><span data-i18n="patients_today">PATIENTS TODAY</span><strong>186</strong><small>Across all departments</small></div>
+    <div class="stat-card"><span data-i18n="active_queue">ACTIVE QUEUE</span><strong>32</strong><small data-i18n="patients_waiting">Patients waiting</small></div>
+    <div class="stat-card"><span data-i18n="pending_referrals">PENDING REFERRALS</span><strong>11</strong><small data-i18n="awaiting_completion">Awaiting completion</small></div>
+    <div class="stat-card"><span data-i18n="high_risk_cases">HIGH-RISK CASES</span><strong class="red-text">04</strong><small data-i18n="require_monitoring">Require monitoring</small></div>
+  </div>
+
+  <section class="dashboard-section">
+    <div class="section-title-row"><div><span data-i18n="referral_network">REFERRAL NETWORK</span><h2 data-i18n="referral_status">Referral Status</h2></div></div>
+    <div class="referral-status-grid">
+      <div class="status-box"><span data-i18n="sent">SENT</span><strong>06</strong></div>
+      <div class="status-box"><span data-i18n="accepted">ACCEPTED</span><strong>08</strong></div>
+      <div class="status-box"><span data-i18n="arrived">ARRIVED</span><strong>05</strong></div>
+      <div class="status-box"><span data-i18n="completed_upper">COMPLETED</span><strong class="green-text">14</strong></div>
+    </div>
+  </section>
+
+  <section class="dashboard-section">
+    <div class="section-title-row"><div><span data-i18n="facility_queue">FACILITY QUEUE</span><h2 data-i18n="department_overview">Department Overview</h2></div></div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th data-i18n="department">Department</th><th data-i18n="waiting">Waiting</th><th data-i18n="doctors">Doctors</th><th data-i18n="status">Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>General Medicine</strong></td><td>14</td><td>04</td><td><span class="green-pill" data-i18n="normal">Normal</span></td></tr>
+          <tr><td><strong>Cardiology</strong></td><td>08</td><td>02</td><td><span class="yellow-pill" data-i18n="busy">Busy</span></td></tr>
+          <tr><td><strong>Emergency</strong></td><td>05</td><td>05</td><td><span class="red-pill" data-i18n="high_load">High Load</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="dashboard-section">
+    <div class="section-title-row"><div><span data-i18n="medicine_availability">MEDICINE AVAILABILITY</span><h2 data-i18n="facility_stock">Facility Stock</h2></div></div>
+    <input class="medsearch" id="medSearch" placeholder="Search medicine..." data-i18n-placeholder="med_search_ph" oninput="renderMed()">
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th data-i18n="medicine">Medicine</th><th data-i18n="qty">Qty</th><th data-i18n="status">Status</th></tr></thead>
+        <tbody id="medBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="dashboard-section">
+    <div class="section-title-row"><div><span data-i18n="facility_controlled">FACILITY-CONTROLLED</span><h2 data-i18n="staff_roster">Staff Roster &amp; Attendance</h2></div></div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th data-i18n="name">Name</th><th data-i18n="role">Role</th><th data-i18n="status">Status</th><th></th></tr></thead>
+        <tbody id="staffBody"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+</div>
+
+<script src="../js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patient Dashboard | CareBridge</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="dashboard-page">
+
+<header class="dashboard-header">
+  <div class="brand"><div class="brand-symbol">✚</div><div><h2>CareBridge</h2><span data-i18n="patient_portal_label">Patient Portal</span></div></div>
+  <div class="header-user">
+    <span id="offlineBadge" class="offline-badge" onclick="toggleOffline()">🟢 <span data-i18n="online">Online</span></span>
+    <div class="langSwitch">
+      <button class="langBtn active" data-lang="en">EN</button>
+      <button class="langBtn" data-lang="hi">हिं</button>
+      <button class="langBtn" data-lang="mr">मर</button>
+    </div>
+    <strong>Vaishali Patil</strong>
+    <button onclick="logout()" data-i18n="logout">Logout</button>
+  </div>
+</header>
+
+<div class="dashboard-layout">
+<aside class="sidebar">
+  <div class="sidebar-profile"><div class="profile-avatar">VP</div><strong>Vaishali Patil</strong><small>Patient ID: CB-10284</small></div>
+  <nav>
+    <a class="active">🏠 <span data-i18n="dashboard">Dashboard</span></a>
+    <a>📋 <span data-i18n="my_records">My Records</span></a>
+    <a>📅 <span data-i18n="appointments">Appointments</span></a>
+    <a>🔄 <span data-i18n="referrals">Referrals</span></a>
+    <a>💊 <span data-i18n="medicines">Medicines</span></a>
+  </nav>
+  <button class="sos-button" onclick="triggerSOS()" data-i18n="emergency_sos">🚨 Emergency SOS</button>
+</aside>
+
+<main class="dashboard-main">
+  <div class="dashboard-title">
+    <div><span data-i18n="patient_overview">PATIENT OVERVIEW</span><h1 data-i18n="patient_good_morning">Good morning, Vaishali</h1><p data-i18n="patient_desc">Here's an overview of your current healthcare journey.</p></div>
+    <div class="online-status">● <span data-i18n="connected">Connected</span></div>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card"><span>UPCOMING APPOINTMENT</span><strong>24 Sep</strong><small>District Hospital · 10:30 AM</small></div>
+    <div class="stat-card"><span data-i18n="active_referral">ACTIVE REFERRAL</span><strong>01</strong><small>Specialist consultation</small></div>
+    <div class="stat-card"><span data-i18n="patient_records">CARE RECORDS</span><strong>08</strong><small>Visits recorded</small></div>
+    <div class="stat-card"><span data-i18n="status">TRIAGE STATUS</span><strong class="green-text">GREEN</strong><small>Last assessed today</small></div>
+  </div>
+
+  <section class="dashboard-section">
+    <div class="section-title-row"><div><span data-i18n="continuity_care">CONTINUITY OF CARE</span><h2 data-i18n="my_care_journey">My Care Journey</h2></div><span class="status-pill" data-i18n="active">Active</span></div>
+    <div class="timeline">
+      <div class="timeline-item completed"><div class="timeline-dot">✓</div><div><strong data-i18n="registration_completed">Registration completed</strong><p>Village Health Centre</p><small>21 Sep 2026</small></div></div>
+      <div class="timeline-item completed"><div class="timeline-dot">✓</div><div><strong data-i18n="digital_triage_completed">Digital triage completed</strong><p data-i18n="priority_green">Priority: Green</p><small>21 Sep 2026</small></div></div>
+      <div class="timeline-item active"><div class="timeline-dot">→</div><div><strong data-i18n="specialist_referral">Specialist referral</strong><p>District Hospital</p><small data-i18n="awaiting_appointment">Awaiting appointment</small></div></div>
+      <div class="timeline-item"><div class="timeline-dot">4</div><div><strong data-i18n="specialist_consultation">Specialist consultation</strong><p>Pending</p></div></div>
+    </div>
+  </section>
+
+  <section class="dashboard-section">
+    <div class="section-title-row"><div><span data-i18n="referral_tracking">REFERRAL TRACKING</span><h2 data-i18n="active_referral">Active Referral</h2></div><span class="yellow-pill" data-i18n="accepted">Accepted</span></div>
+    <div class="referral-box">
+      <div><small data-i18n="referred_to">REFERRED TO</small><h3>District Government Hospital</h3><p data-i18n="cardiology_consultation">Cardiology consultation</p></div>
+      <div class="referral-progress"><span class="done" data-i18n="sent">Sent</span><span class="done" data-i18n="accepted">Accepted</span><span data-i18n="arrived">Arrived</span><span data-i18n="completed_upper">Completed</span></div>
+    </div>
+  </section>
+
+  <section class="dashboard-section">
+    <div class="section-title-row"><div><span data-i18n="wow_factor">WOW FACTOR</span><h2 data-i18n="whatsapp_title">WhatsApp Status Check</h2></div></div>
+    <div class="whatsapp-panel">
+      <div class="chat-log" id="chatLog"></div>
+      <div class="chat-row">
+        <input id="chatInput" placeholder="Patient ID e.g. CB-10421" data-i18n-placeholder="med_search_ph">
+        <button onclick="sendChat()" data-i18n="send">Send</button>
+      </div>
+    </div>
+  </section>
+</main>
+</div>
+
+<div class="modal" id="sosModal">
+  <div class="modal-card">
+    <div class="sos-large">🚨</div>
+    <h2 data-i18n="nearest_hospitals">Nearest Hospitals</h2>
+    <div id="sosBody" style="text-align:left;margin:.8rem 0"></div>
+    <div class="modal-actions">
+      <button class="danger-button" data-i18n="call_emergency">Call Emergency Services</button>
+      <button onclick="closeModal()" data-i18n="close">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="../js/app.js"></script>
+</body>
+</html>

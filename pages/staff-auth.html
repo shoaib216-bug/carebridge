@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staff Login | CareBridge</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="portal-page">
+
+<header class="simple-header">
+  <div class="brand">
+    <div class="brand-symbol">✚</div>
+    <div><h2>CareBridge</h2><span data-i18n="healthcare_staff_portal">PUBLIC HEALTHCARE CONTINUITY PLATFORM</span></div>
+  </div>
+  <a href="staff-login.html" class="back-link">← <span data-i18n="role">Change Role</span></a>
+</header>
+<div class="tricolor"></div>
+
+<main class="login-wrapper">
+  <section class="login-info">
+    <div class="login-kicker" data-i18n="authorized_healthcare">AUTHORIZED HEALTHCARE ACCESS</div>
+    <h1><span id="roleTitle">Healthcare Staff</span> Login</h1>
+    <p id="roleDescription" data-i18n="secure_platform">Secure access to the CareBridge healthcare coordination platform.</p>
+    <div class="login-benefits">
+      <div><span>✓</span><span data-i18n="secure_role_access">Secure role-based access</span></div>
+      <div><span>✓</span><span data-i18n="patient_continuity">Patient information continuity</span></div>
+      <div><span>✓</span><span data-i18n="referral_coordination">Referral and care coordination</span></div>
+      <div><span>✓</span><span data-i18n="facility_workflows">Facility-level healthcare workflows</span></div>
+    </div>
+  </section>
+
+  <section class="login-card">
+    <div class="login-card-icon" id="loginIcon">🔐</div>
+    <h2 id="loginHeading" data-i18n="staff_login">Staff Login</h2>
+    <p class="login-subtitle" id="loginSubtitle" data-i18n="authorized_credentials">Enter your authorized credentials to continue.</p>
+    <label for="staffId" data-i18n="staff_id">Staff ID</label>
+    <input type="text" id="staffId" placeholder="Enter your Staff ID" data-i18n-placeholder="enter_staff_id" autocomplete="username">
+    <label for="password" data-i18n="password">Password</label>
+    <input type="password" id="password" placeholder="Enter your password" data-i18n-placeholder="enter_password" autocomplete="current-password">
+    <button class="login-button" onclick="loginStaff()" data-i18n="sign_in">Sign In Securely →</button>
+    <div class="demo-note"><strong data-i18n="demo_access">DEMO ACCESS</strong> <span data-i18n="demo_staff">Use any Staff ID and password for this frontend prototype.</span></div>
+  </section>
+</main>
+
+<script src="../js/app.js"></script>
+<script src="../js/staff-auth.js"></script>
+</body>
+</html>

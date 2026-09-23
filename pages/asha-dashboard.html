@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASHA Workspace | CareBridge</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="dashboard-page">
+
+<header class="dashboard-header">
+  <div class="brand"><div class="brand-symbol">✚</div><div><h2>CareBridge</h2><span data-i18n="brand_asha">ASHA / ANM Workspace</span></div></div>
+  <div class="header-user">
+    <span id="offlineBadge" class="offline-badge" onclick="toggleOffline()">🟢 <span data-i18n="online">Online</span></span>
+    <div class="langSwitch">
+      <button class="langBtn active" data-lang="en">EN</button>
+      <button class="langBtn" data-lang="hi">हिं</button>
+      <button class="langBtn" data-lang="mr">मर</button>
+    </div>
+    <strong>ASHA · Sunita</strong>
+    <button onclick="logout()" data-i18n="logout">Logout</button>
+  </div>
+</header>
+
+<div class="dashboard-layout">
+<aside class="sidebar">
+  <div class="sidebar-profile"><div class="profile-avatar">AS</div><strong>Sunita Pawar</strong><small>Village Health Centre</small></div>
+  <nav>
+    <a class="active">🏠 <span data-i18n="side_dashboard">Dashboard</span></a>
+    <a>👥 <span data-i18n="side_patients">Patients</span></a>
+    <a>🩺 <span data-i18n="side_triage">Triage</span></a>
+    <a>🔄 <span data-i18n="side_referrals">Referrals</span></a>
+    <a>📋 <span data-i18n="side_followups">Follow-ups</span></a>
+  </nav>
+  <button class="sos-button" onclick="triggerSOS()" data-i18n="emergency_sos">🚨 Emergency SOS</button>
+</aside>
+
+<main class="dashboard-main">
+  <div class="dashboard-title">
+<div><span data-i18n="field_ops">FIELD OPERATIONS</span><h1 data-i18n="good_morning">Good morning, Sunita</h1><p data-i18n="manage_desc">Manage patient registration, triage and referrals — works offline.</p></div>
+    <button class="primary-small" data-i18n="register_patient">+ Register Patient</button>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card"><span data-i18n="stat_todaypatients">TODAY'S PATIENTS</span><strong>24</strong><small>+5 from yesterday</small></div>
+    <div class="stat-card"><span data-i18n="stat_triagepending">TRIAGE PENDING</span><strong>07</strong><small>Require assessment</small></div>
+    <div class="stat-card"><span data-i18n="stat_activereferrals">ACTIVE REFERRALS</span><strong>04</strong><small>Being tracked</small></div>
+    <div class="stat-card"><span data-i18n="stat_followupsdue">FOLLOW-UPS DUE</span><strong>03</strong><small>Today</small></div>
+  </div>
+
+  <section class="dashboard-section">
+    <div class="section-title-row"><div><span data-i18n="sec_patientqueue">PATIENT QUEUE</span><h2 data-i18n="sec_todaypatients">Today's Patients</h2></div><button class="outline-small" data-i18n="view_all">View All</button></div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th data-i18n="col_patient">Patient</th><th data-i18n="col_patientid">Patient ID</th><th data-i18n="col_age">Age</th><th data-i18n="col_triage">Triage</th><th data-i18n="col_action">Action</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Suresh Patil</strong></td><td>CB-10421</td><td>47</td><td><span class="priority red">RED</span></td><td><button class="table-button">Assess</button></td></tr>
+          <tr><td><strong>Asha Shinde</strong></td><td>CB-10422</td><td>34</td><td><span class="priority yellow">YELLOW</span></td><td><button class="table-button">Assess</button></td></tr>
+          <tr><td><strong>Rohit Jadhav</strong></td><td>CB-10423</td><td>28</td><td><span class="priority green">GREEN</span></td><td><button class="table-button">View</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="dashboard-section">
+    <div class="section-title-row"><div><span data-i18n="sec_digitaltriage">DIGITAL TRIAGE</span><h2 data-i18n="sec_quickassess">Quick Assessment (IMNCI-referenced)</h2></div></div>
+    <div class="triage-demo">
+      <label><input type="checkbox" class="symptom-checkbox"> <span data-i18n="sym_breathing">Difficulty breathing</span></label>
+      <label><input type="checkbox" class="symptom-checkbox"> <span data-i18n="sym_chestpain">Severe chest pain</span></label>
+      <label><input type="checkbox" class="symptom-checkbox"> <span data-i18n="sym_fever">High fever</span></label>
+      <label><input type="checkbox" class="symptom-checkbox"> <span data-i18n="sym_headache">Mild headache</span></label>
+      <button class="primary-small" onclick="runTriage()" data-i18n="run_triage">Run Digital Triage</button>
+      <div id="triageResult"></div>
+    </div>
+  </section>
+
+  <section class="dashboard-section">
+    <div class="section-title-row"><div><span data-i18n="sec_referraltracking">REFERRAL TRACKING</span><h2 data-i18n="sec_closedloop">Closed-Loop Referrals</h2></div></div>
+    <div class="referral-grid" id="referralGrid"></div>
+  </section>
+</main>
+</div>
+
+<div class="modal" id="sosModal">
+  <div class="modal-card">
+    <div class="sos-large">🚨</div>
+    <h2 data-i18n="nearest_hospitals">Nearest Hospitals</h2>
+    <div id="sosBody" style="text-align:left;margin:.8rem 0"></div>
+    <div class="modal-actions">
+      <button class="danger-button" data-i18n="call_emergency">Call Emergency Services</button>
+      <button onclick="closeModal()" data-i18n="close">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="../js/app.js"></script>
+</body>
+</html>

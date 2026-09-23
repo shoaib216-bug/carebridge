@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doctor Dashboard | CareBridge</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="dashboard-page">
+
+<header class="dashboard-header">
+  <div class="brand"><div class="brand-symbol">✚</div><div><h2>CareBridge</h2><span data-i18n="doctor_workspace">Doctor Workspace</span></div></div>
+  <div class="header-user">
+    <span id="offlineBadge" class="offline-badge" onclick="toggleOffline()">🟢 <span data-i18n="online">Online</span></span>
+    <div class="langSwitch">
+      <button class="langBtn active" data-lang="en">EN</button>
+      <button class="langBtn" data-lang="hi">हिं</button>
+      <button class="langBtn" data-lang="mr">मर</button>
+    </div>
+    <strong>Dr. Meera Deshpande</strong>
+    <button onclick="logout()" data-i18n="logout">Logout</button>
+  </div>
+</header>
+
+<div class="dashboard-layout">
+<aside class="sidebar">
+  <div class="sidebar-profile"><div class="profile-avatar">MD</div><strong>Dr. Meera Deshpande</strong><small>District Hospital</small></div>
+  <nav>
+    <a class="active">🏠 <span data-i18n="dashboard">Dashboard</span></a>
+    <a>👥 <span data-i18n="patient_queue">Patient Queue</span></a>
+    <a>📋 <span data-i18n="patient_records">Patient Records</span></a>
+    <a>🔄 <span data-i18n="referrals">Referrals</span></a>
+    <a>🧪 <span data-i18n="diagnostics">Diagnostics</span></a>
+  </nav>
+</aside>
+
+<main class="dashboard-main">
+  <div class="dashboard-title">
+    <div><span data-i18n="clinical_workspace">CLINICAL WORKSPACE</span><h1 data-i18n="doctor_dashboard">Doctor Dashboard</h1><p data-i18n="doctor_desc">Review patients, clinical history and active referrals.</p></div>
+    <div class="online-status">● <span data-i18n="clinical_active">Clinical System Active</span></div>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card"><span data-i18n="waiting_patients">WAITING PATIENTS</span><strong>12</strong><small>3 high priority</small></div>
+    <div class="stat-card"><span data-i18n="red_priority">RED PRIORITY</span><strong class="red-text">03</strong><small data-i18n="immediate_attention">Immediate attention</small></div>
+    <div class="stat-card"><span data-i18n="referrals">REFERRALS</span><strong>06</strong><small data-i18n="active_today">Active today</small></div>
+    <div class="stat-card"><span data-i18n="completed_upper">COMPLETED</span><strong class="green-text">18</strong><small data-i18n="consultations_today">Today's consultations</small></div>
+  </div>
+
+  <section class="dashboard-section">
+    <div class="section-title-row"><div><span data-i18n="clinical_queue">CLINICAL QUEUE</span><h2 data-i18n="patients_awaiting_review">Patients Awaiting Review</h2></div></div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th data-i18n="col_patient">Patient</th><th data-i18n="col_age">Age</th><th data-i18n="priority">Priority</th><th data-i18n="reason">Reason</th><th data-i18n="col_action">Action</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Suresh Patil</strong><br><small>CB-10421</small></td><td>47</td><td><span class="priority red">RED</span></td><td data-i18n="sym_chestpain">Severe chest pain</td><td><button class="table-button" data-i18n="open_record">Open Record</button></td></tr>
+          <tr><td><strong>Asha Shinde</strong><br><small>CB-10422</small></td><td>34</td><td><span class="priority yellow">YELLOW</span></td><td data-i18n="sym_fever">High fever</td><td><button class="table-button" data-i18n="open_record">Open Record</button></td></tr>
+          <tr><td><strong>Rohit Jadhav</strong><br><small>CB-10423</small></td><td>28</td><td><span class="priority green">GREEN</span></td><td data-i18n="consultation">Routine consultation</td><td><button class="table-button" data-i18n="open_record">Open Record</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="dashboard-section">
+    <div class="section-title-row"><div><span data-i18n="diagnostic_coordination">DIAGNOSTIC COORDINATION</span><h2 data-i18n="requested_tests">Requested Tests</h2></div></div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th data-i18n="test">Test</th><th data-i18n="col_patient">Patient</th><th data-i18n="status">Status</th></tr></thead>
+        <tbody>
+          <tr><td data-i18n="blood_cbc">Blood CBC</td><td>Ravi Kumar</td><td><span class="yellow-pill" data-i18n="pending">Pending</span></td></tr>
+          <tr><td data-i18n="xray_chest">X-Ray Chest</td><td>Shabana Begum</td><td><span class="blue-pill" data-i18n="in_progress">In Progress</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="dashboard-section">
+    <div class="section-title-row"><div><span data-i18n="referral_management">REFERRAL MANAGEMENT</span><h2 data-i18n="active_referrals_closed">Active Referrals (Closed-Loop)</h2></div></div>
+    <div class="referral-grid" id="referralGrid"></div>
+  </section>
+</main>
+</div>
+
+<script src="../js/app.js"></script>
+</body>
+</html>
